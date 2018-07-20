@@ -1,0 +1,71 @@
+/* Styles */
+#app {
+    font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #4d4d4d;
+    min-width: 550px;
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+a.active {
+    color: orange;
+}
+
+nav {
+    padding-top: 20px;
+}
+/*https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal*/
+/* The Modal (background) */
+.myModal {
+    display: block; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    
+}
+
+/* Modal Content */
+.myModal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    border-radius: 25px;
+}
+
+/* The Close Button */
+.myClose {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+    .myClose:hover,
+    .myClose:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+tr.selectable:hover {
+    background-color: #89ae37;
+    cursor: pointer;
+}
+tr.active {
+    background-color: #89aeFF
+}
+
+td.hoverCursor:hover {
+    cursor: pointer;
+}
+
+

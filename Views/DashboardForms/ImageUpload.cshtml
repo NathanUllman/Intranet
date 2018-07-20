@@ -1,0 +1,91 @@
+﻿@model IntranetApplication.Models.DashboardItem.DashItemUpload
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    string ImageSrc = ViewData["ImageSrc"]?.ToString();
+}
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+
+<h2>AddDashboardItemImageUpload</h2>
+
+
+<div class="container">
+    <form method="post" encType="multipart/form-data">
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-md-4">
+
+                <h3>Create Item Id: @Model.DashboardID</h3>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+               
+                <!-- hidden items for editing -->
+                <div class="form-group">
+                    <input type="hidden" asp-for="DashboardID" value="@Model.DashboardID" />
+                </div>
+                <div class="form-group">
+                    <input type="hidden" asp-for="DashboardItemID" value="@Model.DashboardItemID" />
+                </div>
+                <div class="form-group">
+                    <input type="hidden" asp-for="DashboardItemStatusID" value="@Model.DashboardItemStatusID" />
+                </div>
+                <div class="form-group">
+                    <input type="hidden" asp-for="DashboardTypeID" value="@Model.DashboardTypeID" />
+                </div>
+                <div class="form-group">
+                    <input type="hidden" asp-for="SortOrder" value="@Model.SortOrder" />
+                </div>
+                <!-------------------------------->
+                <div class="form-group">
+                    <label for="Title">Title</label>
+                    <input asp-for="Title" id="Title" type="text" class="form-control" placeholder="" />
+                </div>
+                <div class="form-group">
+                    <label for="StartTime">Start time</label>
+                    <input asp-for="StartDateTime" id="StartTime" type="datetime-local" min="@DateTime.Today.ToString("yyyy-MM-ddThh:mm")" value="@DateTime.Today.ToString("yyyy-MM-ddThh:mm")" class="form-control" placeholder="" />
+                </div>
+                <div class="form-group">
+                    <label for="EndTime">End time</label>
+                    <input asp-for="EndDateTime" id="EndTime" type="datetime-local" min="@DateTime.Today.ToString("yyyy-MM-ddThh:mm")" value="@DateTime.Today.ToString("yyyy-MM-ddThh:mm")" class="form-control" placeholder="" />
+                </div>
+            </div>
+            <div class="col-md-8">
+                <img id="preview" src="@Model.ImageURI" alt="preview image" accept="image/*" style="max-width: 400px" />
+                <input type="hidden" asp-for="ImageURI" value="@Model.ImageURI"/>
+                <br />
+                <br />
+                <div class="form-group">
+                    <input type='file' name="files" id="imgInput" />
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default">Add/Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    function readURL(input) {
+        //https://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#preview').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#imgInput").change(function () {
+        readURL(this);
+    });
+
+</script>
+
+

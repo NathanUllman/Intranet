@@ -1,0 +1,116 @@
+﻿@using System.Web
+@using Hangfire.Dashboard
+@using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
+@model IntranetApplication.Models.DashboardItem.DashItemText
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "TextOnly";
+    var dam = Model.DisplayText;
+}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+<script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+<!-- Theme included stylesheets -->
+<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+
+<!-- Core build with no theme, formatting, non-essential modules -->
+<link href="//cdn.quilljs.com/1.3.6/quill.core.css" rel="stylesheet">
+<script src="//cdn.quilljs.com/1.3.6/quill.core.js"></script>
+
+
+
+<div class="container">
+    <br />
+    <br />
+    <form method="post">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Create Item Id: @Model.DashboardID</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
+                        <!-- hidden items for editing -->
+                        <div class="form-group">
+                            <input type="hidden" asp-for="DashboardID" value="@Model.DashboardID" />
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" asp-for="DashboardItemID" value="@Model.DashboardItemID" />
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" asp-for="DashboardItemStatusID" value="@Model.DashboardItemStatusID" />
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" asp-for="DashboardTypeID" value="@Model.DashboardTypeID" />
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" asp-for="SortOrder" value="@Model.SortOrder" />
+                        </div>
+                        <!-------------------------------->
+                        <div class="form-group">
+                            <label for="Title">Title</label>
+                            <input asp-for="Title" id="Title" type="text" class="form-control" placeholder="" />
+                        </div>
+                        <div class="form-group">
+                            <label for="StartTime">Start time</label>
+                            <input asp-for="StartDateTime" id="StartTime" type="datetime-local" min="@DateTime.Today.ToString("yyyy-MM-ddThh:mm")" value="@DateTime.Today.ToString("yyyy-MM-ddThh:mm")" class="form-control" placeholder="" />
+                        </div>
+                        <div class="form-group">
+                            <label for="EndTime"> End time</label>
+                            <input asp-for="EndDateTime" id="EndTime" type="datetime-local" min="@DateTime.Today.ToString("yyyy-MM-ddThh:mm")" value="@DateTime.Today.ToString("yyyy-MM-ddThh:mm")" class="form-control" placeholder="" />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-default">Add/Save</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label>Displayed Text</label>
+                    <input id="displayedText" type="hidden" asp-for="DisplayText" />
+                    <div id="editor-container">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<!-- Include the Quill library -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<!-- Initialize Quill editor -->
+<script>
+    var quill = new Quill('#editor-container',
+        {
+            modules: {
+                toolbar: [
+                    [{ header: [1, 2, false] }],
+                    ['bold', 'italic', 'underline'],
+                    ['image', 'code-block']
+                ]
+            },
+            placeholder: 'Insert Text and pictures here',
+            theme: 'snow' // or 'bubble'
+        });
+
+
+    quill.setContents(@Html.Raw(Model.DisplayText)); // fill up box if we are editing
+    var form = document.querySelector('form');
+    form.onsubmit = function(e) {
+        e.preventDefault();
+        // Populate hidden form on submit
+        document.getElementById("displayedText").value = JSON.stringify(quill.getContents());
+        form.submit();
+    }
+</script>
+
